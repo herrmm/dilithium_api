@@ -1,54 +1,17 @@
 package main
 
 import (
-	//"encoding/base64"
+
 	"crypto/aes"
 	dilithium "crystals-dilithium"
 	"encoding/hex"
 	"fmt"
 	"log"
-
-	//"unsafe"
-	//"reflect"
-	//dilithium "github.com/kudelskisecurity/crystals-go/crystals-dilithium"
-
-	//"mux-main"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-/*
-	type todo struct {
-		ID        string `json:"id"`
-		Item      string `json:"item"`
-		Completed bool   `json:"completed"`
-	}
-
-	var todos = []todo{
-		{ID: "1", Item: "clean", Completed: false},
-		{ID: "2", Item: "read", Completed: false},
-		{ID: "3", Item: "record", Completed: false},
-	}
-
-	func getTodos(context *gin.Context) {
-		fmt.Println("gettodo")
-		context.IndentedJSON(http.StatusOK, todos)
-	}
-
-	func addTodo(context *gin.Context) {
-		fmt.Println("addtodo")
-		var newTodo todo
-
-		if err := context.BindJSON(&newTodo); err != nil {
-			return
-		}
-
-		todos = append(todos, newTodo)
-
-		context.IndentedJSON(http.StatusCreated, newTodo)
-	}
-*/
 // See NIST's PQCgenKAT.c.
 type DRBG struct {
 	key [32]byte
