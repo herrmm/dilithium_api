@@ -1,4 +1,4 @@
-module myproject
+module github.com/herrmm/dilithium_api
 
 go 1.21.1
 
