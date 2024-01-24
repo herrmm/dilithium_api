@@ -7,10 +7,12 @@ import (
 	"encoding/hex"
 	"fmt"
 	"log"
+
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
+
 
 // See NIST's PQCgenKAT.c.
 type DRBG struct {
@@ -78,6 +80,10 @@ type sign struct {
 	Signature string `json:"signature"`
 	Sk        string `json:"private key"`
 }
+type rsp_sign struct {
+	Signature string `json:"signature"`
+	Pk        string `json:"public key"`
+}
 
 var signs = []sign{}
 
@@ -103,8 +109,10 @@ func do_sign(context *gin.Context) {
 	}
 	sig := d.Sign(sign_sk, sign_msg)
 	newSign.Signature = hex.EncodeToString(sig)
-	newSign.Sk = ""
-	context.IndentedJSON(http.StatusCreated, newSign)
+	var rsp rsp_sign
+	rsp.Signature = newSign.Signature
+	rsp.Pk = hex.EncodeToString(pk)
+	context.IndentedJSON(http.StatusCreated, rsp)
 }
 
 type gen struct {
@@ -113,8 +121,10 @@ type gen struct {
 	Sk      string `json:"private key"`
 	Seed    string `json:"seed"`
 }
-
-var gens = []gen{}
+type rsp_gen struct {
+	Pk string `json:"public key"`
+	Sk string `json:"private key"`
+}
 
 func do_gen(context *gin.Context) {
 	fmt.Println("do_gen")
@@ -124,8 +134,6 @@ func do_gen(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid request"})
 		return
 	}
-
-	gens = append(gens, newGen)
 
 	level := newGen.D_level
 	fmt.Println("level: ", level)
@@ -165,7 +173,10 @@ func do_gen(context *gin.Context) {
 	}
 	newGen.Pk = hex.EncodeToString(pk)
 	newGen.Sk = hex.EncodeToString(sk)
-	context.IndentedJSON(http.StatusCreated, newGen)
+	var rsp rsp_gen
+	rsp.Pk = newGen.Pk
+	rsp.Sk = newGen.Sk
+	context.IndentedJSON(http.StatusCreated, rsp)
 }
 
 type verify struct {
@@ -173,6 +184,9 @@ type verify struct {
 	Signature string `json:"signature"`
 	Outcome   string `json:"outcome"`
 	Msg       string `json:"message"`
+}
+type rsp_verify struct {
+	Outcome string `json:"outcome"`
 }
 
 func do_verify(context *gin.Context) {
@@ -210,9 +224,9 @@ func do_verify(context *gin.Context) {
 		println("verify invalid")
 		newVerify.Outcome = "verify invalid"
 	}
-	newVerify.Pk = ""
-	newVerify.Signature = ""
-	context.IndentedJSON(http.StatusCreated, newVerify)
+	var rsp rsp_verify
+	rsp.Outcome = newVerify.Outcome
+	context.IndentedJSON(http.StatusCreated, rsp)
 }
 
 func main() {
