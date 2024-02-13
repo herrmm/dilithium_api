@@ -3,7 +3,7 @@ package main
 import (
 
 	"crypto/aes"
-	dilithium "crystals-dilithium"
+	"github.com/herrmm/dilithium_api/crystal-dilithium"
 	"encoding/hex"
 	"fmt"
 	"log"
