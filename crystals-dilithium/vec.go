@@ -1,6 +1,5 @@
 package dilithium
 
-import "fmt"
 
 // Vec holds L or K polynomials
 type Vec []Poly
