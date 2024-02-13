@@ -28,7 +28,6 @@ func vecAccPointWise(u, v Vec, L int) Poly {
 		t = montMul(u[i], v[i])
 		w = add(w, t)
 	}
-	fmt.Println("LEN OF W[][]", w)
 	return w
 }
 
