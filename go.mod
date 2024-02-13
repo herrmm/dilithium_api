@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/gorilla/mux v1.8.1
-	github.com/herrmm/dilithium_api/crystal-dilithium
+	github.com/herrmm/dilithium_api/crystal-dilithium v0.1.0
 )
 
 require (
