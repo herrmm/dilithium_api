@@ -196,7 +196,7 @@ rej:
 // If an error occurs during the verification, a false is returned.
 func (d *Dilithium) Verify(packedPK, msg, sig []byte) bool {
 	if len(sig) != d.SIZESIG() || len(packedPK) != d.SIZEPK() {
-		fmt.Println("falselalalalala~~")
+		fmt.Println("false")
 		return false
 	}
 
@@ -246,6 +246,5 @@ func (d *Dilithium) Verify(packedPK, msg, sig []byte) bool {
 	state.Write(mu[:])
 	state.Write(packW1(w1, K, d.params.POLYSIZEW1, d.params.GAMMA2))
 	state.Read(hc2[:])
-	fmt.Println("cuuuuuaaaaaa")
 	return z.vecIsBelow(d.params.GAMMA1-d.params.BETA, L) && bytes.Equal(hc, hc2[:]) && h.sum(K) <= d.params.OMEGA
 }
